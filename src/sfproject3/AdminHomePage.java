@@ -12,12 +12,20 @@ import javafx.scene.layout.Border;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.border.MatteBorder;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.GroupLayout;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author thash
  */
-public class AdminHomePage extends javax.swing.JFrame {
+public final class AdminHomePage extends javax.swing.JFrame {
 
     /**
      * Creates new form AdminHomePage
@@ -37,7 +45,7 @@ public class AdminHomePage extends javax.swing.JFrame {
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         this();
         this.setLocationRelativeTo(null);
-        lblTitle.setText("Welcome " + un);
+        lblAdminWelcome2.setText("Welcome " + un);
       
         //add buttons to the array
         buttons = new JButton[7];
@@ -55,7 +63,91 @@ public class AdminHomePage extends javax.swing.JFrame {
         }
         
         addAction();
-        
+        try {
+            //open the connection
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?useSSL=false", "root", "root@123");
+            //here mydb is database name
+            //root is username of mysql
+            //root@123 is password
+           // JOptionPane.showMessageDialog(null, "Database connection successful");   
+            
+            //Projects
+            String sqlProjects = "Select Project_ID, Project_Title, Description, Group_Project, No_of_members, Module, Available, Due_Date from projects ";
+            PreparedStatement pstProjects = con.prepareStatement(sqlProjects);
+            ResultSet rsProjects = pstProjects.executeQuery(sqlProjects);
+            
+            //Practicals
+            String sqlPrac = "Select Practical_ID, Practical_Title, Description, Module, Start_Date, End_Date , Available from practicals";
+            PreparedStatement pstPrac = con.prepareStatement(sqlPrac);
+            ResultSet rsPrac = pstPrac.executeQuery(sqlPrac);
+            
+            while (rsProjects.next()){
+            // data will be added until it gets to the end for projects
+                String Project_ID = String.valueOf(rsProjects.getInt("Project_ID"));
+                String ProjectTitle = rsProjects.getString("Project_Title");
+                String Description = rsProjects.getString("Description");
+                //Boolean to string
+                boolean gp = (rsProjects.getBoolean("Group_Project"));
+                String GroupProject = "Unknown";
+                if (gp == true){
+                GroupProject = "No";
+                }
+                else if (gp == false){
+                GroupProject = "Yes";
+                }
+               /* else (gp == null){
+                String GroupProjecct = "Unknown";
+                 }*/
+                String NumMembers = String.valueOf(rsProjects.getInt("No_of_members"));
+                String ModuleCode = rsProjects.getString("Module");
+                //boolean to string
+                boolean available = (rsProjects.getBoolean("Available"));
+                String Available = "Unknown";
+
+                if (available == true){
+                Available = "No";
+                }
+                else if (available == false){
+                Available = "Yes";
+                }
+                
+                String DueDate = (rsProjects.getDate("Due_Date")).toString(); //YYYY-MM-DD
+                 //String array to store data into jTable
+                String tbprojData[] = {Project_ID, ProjectTitle, Description, GroupProject, NumMembers, ModuleCode, Available, DueDate };
+                DefaultTableModel tblProjModel = (DefaultTableModel)jTable1.getModel();
+                 //add String array into jTabel
+                tblProjModel.addRow(tbprojData);
+            }
+            while (rsPrac.next()){
+            // data will be added until it gets to the end for practicals
+                String Prac_ID = String.valueOf(rsPrac.getInt("Practical_ID"));
+                String PracTitle = rsPrac.getString("Practical_Title");
+                String PracDescription = rsPrac.getString("Description");
+                String PracModuleCode = rsPrac.getString("Module");
+                String StartDate = (rsPrac.getDate("Start_Date")).toString(); //YYYY-MM-DD
+                String EndDate = (rsPrac.getDate("End_Date")).toString(); //YYYY-MM-DD
+                //boolean to string
+                boolean avaPrac = (rsPrac.getBoolean("Available"));
+                String PracAva = "Unknown";
+
+                if (avaPrac == true){
+                PracAva = "No";
+                }
+                else if (avaPrac == false){
+                PracAva = "Yes";
+                }
+               //String array to store data into jTable
+                String tbPracData[] = {Prac_ID, PracTitle, PracDescription, PracModuleCode, StartDate, EndDate, PracAva};
+                DefaultTableModel tblPracModel = (DefaultTableModel)jTable2.getModel();
+                //add String array into jTabel
+                tblPracModel.addRow(tbPracData);
+            }
+        }
+        catch(Exception e){
+         System.out.println(e.getMessage());
+         JOptionPane.showMessageDialog(null, "Error in connecting to database");
+        }
     }
 
     /**
@@ -78,6 +170,12 @@ public class AdminHomePage extends javax.swing.JFrame {
         btnManage = new javax.swing.JButton();
         btnLogOut = new javax.swing.JButton();
         lblAdminWelcome2 = new javax.swing.JLabel();
+        tblProjects = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        tblPracticals = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,6 +186,7 @@ public class AdminHomePage extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTitle.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 18)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(153, 0, 0));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("University Allocation System");
         jPanel1.add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 90));
@@ -101,6 +200,11 @@ public class AdminHomePage extends javax.swing.JFrame {
         btnDash.setBorder(null);
         btnDash.setContentAreaFilled(false);
         btnDash.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDash.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDashActionPerformed(evt);
+            }
+        });
 
         btnPracticals.setBackground(new java.awt.Color(255, 255, 255));
         btnPracticals.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
@@ -109,6 +213,11 @@ public class AdminHomePage extends javax.swing.JFrame {
         btnPracticals.setBorder(null);
         btnPracticals.setContentAreaFilled(false);
         btnPracticals.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPracticals.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPracticalsActionPerformed(evt);
+            }
+        });
 
         btnProjects.setBackground(new java.awt.Color(255, 255, 255));
         btnProjects.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
@@ -117,6 +226,11 @@ public class AdminHomePage extends javax.swing.JFrame {
         btnProjects.setBorder(null);
         btnProjects.setContentAreaFilled(false);
         btnProjects.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnProjects.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProjectsActionPerformed(evt);
+            }
+        });
 
         btnStudents.setBackground(new java.awt.Color(255, 255, 255));
         btnStudents.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
@@ -125,6 +239,11 @@ public class AdminHomePage extends javax.swing.JFrame {
         btnStudents.setBorder(null);
         btnStudents.setContentAreaFilled(false);
         btnStudents.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnStudents.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStudentsActionPerformed(evt);
+            }
+        });
 
         btnStaff.setBackground(new java.awt.Color(255, 255, 255));
         btnStaff.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
@@ -149,6 +268,11 @@ public class AdminHomePage extends javax.swing.JFrame {
         btnLogOut.setBorder(null);
         btnLogOut.setContentAreaFilled(false);
         btnLogOut.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -188,23 +312,98 @@ public class AdminHomePage extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, 910, 70));
 
-        lblAdminWelcome2.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 18)); // NOI18N
+        lblAdminWelcome2.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 18)); // NOI18N
         lblAdminWelcome2.setText("Welcome");
-        jPanel1.add(lblAdminWelcome2, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, 210, -1));
+        jPanel1.add(lblAdminWelcome2, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 40, 210, -1));
+
+        tblProjects.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+
+        jTable1.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Project_ID", "Project_Title", "Description", "Group_Project", "No. of members", "Module", "Available", "Due_Date"
+            }
+        ));
+        tblProjects.setViewportView(jTable1);
+
+        jPanel1.add(tblProjects, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 190, 940, 170));
+
+        jLabel1.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        jLabel1.setText("Current Projects:");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        jLabel2.setText("Current Practicals:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 390, -1, -1));
+
+        jTable2.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Practical_ID", "Practical_Title", "Description", "Module", "Start_Date", "End_Date", "Available"
+            }
+        ));
+        tblPracticals.setViewportView(jTable2);
+
+        jPanel1.add(tblPracticals, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 430, 950, 180));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1135, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 734, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
+        // TODO add your handling code here:
+        // exit program
+        System.exit(0);
+        
+    }//GEN-LAST:event_btnLogOutActionPerformed
+
+    private void btnPracticalsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPracticalsActionPerformed
+        // TODO add your handling code here:
+        //SetAdminProjForm Visible and close AdminHomePage
+        this.toBack();
+        AdminPracForm adPrac = new AdminPracForm();
+        adPrac.setVisible(true);
+        adPrac.toFront();
+        //setVisible(false);
+    }//GEN-LAST:event_btnPracticalsActionPerformed
+
+    private void btnProjectsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProjectsActionPerformed
+        // TODO add your handling code here:
+        //Set AdminPracForm Visible and close AdminHomePage
+        this.toBack();
+        AdminProjForm adProj = new AdminProjForm();
+        adProj.setVisible(true);
+        adProj.toFront();
+        //setVisible(false);
+    }//GEN-LAST:event_btnProjectsActionPerformed
+
+    private void btnDashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashActionPerformed
+        // TODO add your handling code here:
+        //The dashboard is the AdminHomePage so its not much of a button, more of a Screen title
+    }//GEN-LAST:event_btnDashActionPerformed
+
+    private void btnStudentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentsActionPerformed
+        // TODO add your handling code here:
+        //Set Student
+    }//GEN-LAST:event_btnStudentsActionPerformed
 
     //Create a function to add a mouseClick event to all buttons
     public void addAction(){
@@ -294,9 +493,15 @@ public class AdminHomePage extends javax.swing.JFrame {
     private javax.swing.JButton btnProjects;
     private javax.swing.JButton btnStaff;
     private javax.swing.JButton btnStudents;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JLabel lblAdminWelcome2;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JScrollPane tblPracticals;
+    private javax.swing.JScrollPane tblProjects;
     // End of variables declaration//GEN-END:variables
 }
