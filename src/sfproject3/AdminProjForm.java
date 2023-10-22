@@ -5,6 +5,10 @@
  */
 package sfproject3;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,6 +22,23 @@ public class AdminProjForm extends javax.swing.JFrame {
      */
     public AdminProjForm() {
         initComponents();
+        try{
+            //open the connection
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?useSSL=false", "root", "root@123");
+            //here mydb is database name
+            //root is username of mysql
+            //root@123 is password
+            // JOptionPane.showMessageDialog(null, "Database connection successful"); 
+            String sqlProjects = "Select Project_ID, Project_Title, Description, Group_Project, No_of_members, Module, Available, Start_Date, Due_Date from projects ";
+            PreparedStatement pstProjects = con.prepareStatement(sqlProjects);
+            ResultSet rsProjects = pstProjects.executeQuery(sqlProjects);
+            con.close();
+            }
+            catch(Exception e){
+            System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Error in connecting to database");
+            }
     }
 
     /**
@@ -85,10 +106,20 @@ public class AdminProjForm extends javax.swing.JFrame {
 
         btnUpdate.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 550, -1, -1));
 
         btnDelete.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 550, -1, -1));
 
         txtTitleProj.addActionListener(new java.awt.event.ActionListener() {
@@ -106,18 +137,17 @@ public class AdminProjForm extends javax.swing.JFrame {
         });
         jPanel2.add(chkGroup, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 220, -1, -1));
 
-        spnNumMembers.setModel(new javax.swing.SpinnerNumberModel(2, 2, 70, 1));
-        spnNumMembers.setEnabled(false);
+        spnNumMembers.setModel(new javax.swing.SpinnerNumberModel(1, 1, 70, 1));
         jPanel2.add(spnNumMembers, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 270, -1, -1));
         jPanel2.add(txtModName, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, 150, -1));
 
         chkAvailableProj.setText("Available");
         jPanel2.add(chkAvailableProj, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 390, -1, -1));
 
-        txtStartDateProj.setText("YYYY/MM/DD");
+        txtStartDateProj.setText("YYYY-MM-DD");
         jPanel2.add(txtStartDateProj, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 450, 150, -1));
 
-        txtDueDateProj.setText("YYYY/MM/DD");
+        txtDueDateProj.setText("YYYY-MM-DD");
         jPanel2.add(txtDueDateProj, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 500, 150, -1));
 
         jLabel1.setText("Project Title");
@@ -148,6 +178,11 @@ public class AdminProjForm extends javax.swing.JFrame {
 
         btnClear.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
         btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 590, 310, 30));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 370, 640));
@@ -205,20 +240,167 @@ public class AdminProjForm extends javax.swing.JFrame {
             String Des = txtDescriptionProj.getText();
             Boolean GroupChecking = false;
             int NumMem = 1;
+            Boolean AvailableChecking = false;
+            
             if (chkGroup.isSelected()){
             GroupChecking = true;
-            spnNumMembers.enable();
             NumMem = (Integer)(spnNumMembers.getValue()); 
-            //INCOMPLETE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             }
-        
+            String MODCode = txtModName.getText();
+            if (chkAvailableProj.isSelected()){
+            AvailableChecking = true;
+            }
+            String StartDate = txtStartDateProj.getText();
+            String DueDate = txtDueDateProj.getText();
+            
+            try{
+            //open the connection
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?useSSL=false", "root", "root@123");
+            //here mydb is database name
+            //root is username of mysql
+            //root@123 is password
+           // JOptionPane.showMessageDialog(null, "Database connection successful"); 
+            
+            String sql = "INSERT into projects (Project_Title, Description, Group_Project, No_of_members, Module, Available, Start_Date, Due_Date) values (?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            
+            pstmt.setString(1, Title);
+            pstmt.setString(2, Des);
+            pstmt.setBoolean(3, GroupChecking);
+            pstmt.setInt(4, NumMem);
+            pstmt.setString(5, MODCode);
+            pstmt.setBoolean(6,AvailableChecking);
+            pstmt.setString(7, StartDate);
+            pstmt.setString(8, DueDate);
+            
+            int Count = pstmt.executeUpdate();
+            if (Count != 0){
+            JOptionPane.showMessageDialog(null, "Data successfully added");
+            String sqlProjects = "Select Project_ID, Project_Title, Description, Group_Project, No_of_members, Module, Available, Start_Date, Due_Date from projects ";
+            PreparedStatement pstProjects = con.prepareStatement(sqlProjects);
+            ResultSet rsProjects = pstProjects.executeQuery(sqlProjects);
+            }
+            else {JOptionPane.showMessageDialog(null, "Data not added");}
+            con.close();
+            }
+            catch(Exception e){
+            System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Error in connecting to database");
+            }
         }
         
     }//GEN-LAST:event_btnInsertActionPerformed
 
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        // TODO add your handling code here:
+        txtTitleProj.setText("");
+        txtDescriptionProj.setText("");
+        chkGroup.setSelected(false);
+        spnNumMembers.setValue(1);
+        txtModName.setText("");
+        chkAvailableProj.setSelected(false);
+        txtStartDateProj.setText("YYYY-MM-DD");
+        txtDueDateProj.setText("YYYY-MM-DD");
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        int Proj_ID = (Integer.parseInt(JOptionPane.showInputDialog("Input the Project_ID of the record you want to update:")));
+         try{
+            //open the connection
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?useSSL=false", "root", "root@123");
+            //here mydb is database name
+            //root is username of mysql
+            //root@123 is password
+           // JOptionPane.showMessageDialog(null, "Database connection successful"); 
+            
+            String sql = "UPDATE projects Project_Title = ?, Description= ?, Group_Project= ?, No_of_members= ?, Module= ?, Available= ?, Start_Date= ?, Due_Date= ? WHERE Project_ID = ?";
+            
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            
+            String Title = txtTitleProj.getText();
+            String Des = txtDescriptionProj.getText();
+            Boolean GroupChecking = false;
+            int NumMem = 1;
+            Boolean AvailableChecking = false;
+            
+            if (chkGroup.isSelected()){
+            GroupChecking = true;
+            NumMem = (Integer)(spnNumMembers.getValue()); 
+            }
+            String MODCode = txtModName.getText();
+            if (chkAvailableProj.isSelected()){
+            AvailableChecking = true;
+            }
+            String StartDate = txtStartDateProj.getText();
+            String DueDate = txtDueDateProj.getText();
+            
+            pstmt.setString(1, Title);
+            pstmt.setString(2, Des);
+            pstmt.setBoolean(3, GroupChecking);
+            pstmt.setInt(4, NumMem);
+            pstmt.setString(5, MODCode);
+            pstmt.setBoolean(6,AvailableChecking);
+            pstmt.setString(7, StartDate);
+            pstmt.setString(8, DueDate);
+            pstmt.setInt(9, Proj_ID);
+            
+            int Count = pstmt.executeUpdate();
+            if (Count != 0){
+            JOptionPane.showMessageDialog(null, "Data Updated successfully");
+            String sqlProjects = "Select Project_ID, Project_Title, Description, Group_Project, No_of_members, Module, Available, Start_Date, Due_Date from projects ";
+            PreparedStatement pstProjects = con.prepareStatement(sqlProjects);
+            ResultSet rsProjects = pstProjects.executeQuery(sqlProjects);
+            }
+            else {JOptionPane.showMessageDialog(null, "Data not updated");}
+            con.close();
+            }
+         catch(Exception e){
+            System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Error in connecting to database");
+            }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+         int Proj_ID = (Integer.parseInt(JOptionPane.showInputDialog("Input the Project_ID of the record you want to update:")));
+         try{
+            //open the connection
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?useSSL=false", "root", "root@123");
+            //here mydb is database name
+            //root is username of mysql
+            //root@123 is password
+           // JOptionPane.showMessageDialog(null, "Database connection successful"); 
+            
+            String sql = "Delete from projects WHERE Project_ID = ?";
+            
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            
+            pstmt.setInt(1, Proj_ID);
+            
+            int Count = pstmt.executeUpdate();
+            if (Count != 0){
+            JOptionPane.showMessageDialog(null, "Data Deleted successfully");
+            String sqlProjects = "Select Project_ID, Project_Title, Description, Group_Project, No_of_members, Module, Available, Start_Date, Due_Date from projects ";
+            PreparedStatement pstProjects = con.prepareStatement(sqlProjects);
+            ResultSet rsProjects = pstProjects.executeQuery(sqlProjects);
+            }
+            else {JOptionPane.showMessageDialog(null, "Data not deleted");}
+            con.close();
+            }
+         catch(Exception e){
+            System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Error in connecting to database");
+            }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

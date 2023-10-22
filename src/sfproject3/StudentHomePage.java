@@ -39,13 +39,25 @@ public class StudentHomePage extends javax.swing.JFrame {
         lblAdminWelcome2 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         pnlBookPrac = new javax.swing.JPanel();
+        lblSearch = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
         pnlSubmitPrac = new javax.swing.JPanel();
         btnSubmitPrac = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        tblPracSub = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         pnlBookProj = new javax.swing.JPanel();
+        lblSearch1 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
         pnlSubmitProj = new javax.swing.JPanel();
+        btnSubmitProj = new javax.swing.JButton();
+        tblProjSub = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,19 +76,34 @@ public class StudentHomePage extends javax.swing.JFrame {
 
         jTabbedPane1.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
 
-        javax.swing.GroupLayout pnlBookPracLayout = new javax.swing.GroupLayout(pnlBookPrac);
-        pnlBookPrac.setLayout(pnlBookPracLayout);
-        pnlBookPracLayout.setHorizontalGroup(
-            pnlBookPracLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1175, Short.MAX_VALUE)
-        );
-        pnlBookPracLayout.setVerticalGroup(
-            pnlBookPracLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 657, Short.MAX_VALUE)
-        );
+        pnlBookPrac.setBackground(new java.awt.Color(255, 255, 255));
+        pnlBookPrac.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sfproject3/SearchButton.png"))); // NOI18N
+        pnlBookPrac.add(lblSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 20, 40, 40));
+
+        jTextField1.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        jTextField1.setToolTipText("Search for Module");
+        pnlBookPrac.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 20, 160, 40));
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable3);
+
+        pnlBookPrac.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 110, 840, 520));
 
         jTabbedPane1.addTab("Book Practicals", pnlBookPrac);
 
+        pnlSubmitPrac.setBackground(new java.awt.Color(255, 255, 255));
         pnlSubmitPrac.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnSubmitPrac.setText("Submit");
@@ -93,9 +120,9 @@ public class StudentHomePage extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblPracSub.setViewportView(jTable1);
 
-        pnlSubmitPrac.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 100, 730, 400));
+        pnlSubmitPrac.add(tblPracSub, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 100, 730, 400));
 
         jLabel1.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
         jLabel1.setText("Your Current Practicals");
@@ -103,33 +130,61 @@ public class StudentHomePage extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Submit Practicals", pnlSubmitPrac);
 
-        javax.swing.GroupLayout pnlBookProjLayout = new javax.swing.GroupLayout(pnlBookProj);
-        pnlBookProj.setLayout(pnlBookProjLayout);
-        pnlBookProjLayout.setHorizontalGroup(
-            pnlBookProjLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1175, Short.MAX_VALUE)
-        );
-        pnlBookProjLayout.setVerticalGroup(
-            pnlBookProjLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 657, Short.MAX_VALUE)
-        );
+        pnlBookProj.setBackground(new java.awt.Color(255, 255, 255));
+        pnlBookProj.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblSearch1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sfproject3/SearchButton.png"))); // NOI18N
+        pnlBookProj.add(lblSearch1, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 20, 40, 40));
+
+        jTextField2.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        jTextField2.setToolTipText("Search for Module");
+        pnlBookProj.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 20, 160, 40));
+
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable4);
+
+        pnlBookProj.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 110, 840, 520));
 
         jTabbedPane1.addTab("Book Projects", pnlBookProj);
 
-        javax.swing.GroupLayout pnlSubmitProjLayout = new javax.swing.GroupLayout(pnlSubmitProj);
-        pnlSubmitProj.setLayout(pnlSubmitProjLayout);
-        pnlSubmitProjLayout.setHorizontalGroup(
-            pnlSubmitProjLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1175, Short.MAX_VALUE)
-        );
-        pnlSubmitProjLayout.setVerticalGroup(
-            pnlSubmitProjLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 657, Short.MAX_VALUE)
-        );
+        pnlSubmitProj.setBackground(new java.awt.Color(255, 255, 255));
+        pnlSubmitProj.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnSubmitProj.setText("Submit");
+        pnlSubmitProj.add(btnSubmitProj, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 550, 130, 50));
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblProjSub.setViewportView(jTable2);
+
+        pnlSubmitProj.add(tblProjSub, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 100, 730, 400));
+
+        jLabel2.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        jLabel2.setText("Your Current Projects");
+        pnlSubmitProj.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 70, -1, -1));
 
         jTabbedPane1.addTab("Submit projects", pnlSubmitProj);
 
-        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 1180, 690));
+        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 1180, 690));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -184,16 +239,28 @@ public class StudentHomePage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSubmitPrac;
+    private javax.swing.JButton btnSubmitProj;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblAdminWelcome2;
+    private javax.swing.JLabel lblSearch;
+    private javax.swing.JLabel lblSearch1;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JPanel pnlBookPrac;
     private javax.swing.JPanel pnlBookProj;
     private javax.swing.JPanel pnlSubmitPrac;
     private javax.swing.JPanel pnlSubmitProj;
+    private javax.swing.JScrollPane tblPracSub;
+    private javax.swing.JScrollPane tblProjSub;
     // End of variables declaration//GEN-END:variables
 }

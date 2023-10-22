@@ -29,9 +29,9 @@ public class AdminStudentForm extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         lblStudentsTitle = new javax.swing.JLabel();
+        btnGoback = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(480, 600));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setMinimumSize(new java.awt.Dimension(480, 600));
@@ -41,6 +41,15 @@ public class AdminStudentForm extends javax.swing.JFrame {
         lblStudentsTitle.setText("Student Information");
         jPanel1.add(lblStudentsTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, -1, -1));
 
+        btnGoback.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        btnGoback.setText("<<Go Back");
+        btnGoback.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGobackActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnGoback, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 670, 110, 40));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -49,11 +58,20 @@ public class AdminStudentForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 755, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGobackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGobackActionPerformed
+        // TODO add your handling code here:
+        //go back to adminHomePage(un)
+        this.toBack();
+        setVisible(false);
+        new AdminProjForm().toFront();
+        new AdminProjForm().setState(java.awt.Frame.NORMAL);
+    }//GEN-LAST:event_btnGobackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -91,6 +109,7 @@ public class AdminStudentForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGoback;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblStudentsTitle;
     // End of variables declaration//GEN-END:variables

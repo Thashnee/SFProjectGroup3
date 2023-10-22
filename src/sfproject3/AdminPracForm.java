@@ -5,6 +5,10 @@
  */
 package sfproject3;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,6 +22,23 @@ public class AdminPracForm extends javax.swing.JFrame {
      */
     public AdminPracForm() {
         initComponents();
+        try{
+            //open the connection
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?useSSL=false", "root", "root@123");
+            //here mydb is database name
+            //root is username of mysql
+            //root@123 is password
+            // JOptionPane.showMessageDialog(null, "Database connection successful"); 
+            String sqlPrac = "Select Practical_ID, Practical_Title, Description, Module, Start_Date, End_Date , Available from practicals";
+            PreparedStatement pstPrac = con.prepareStatement(sqlPrac);
+            ResultSet rsPrac = pstPrac.executeQuery(sqlPrac);
+            con.close();
+            }
+            catch(Exception e){
+            System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Error in connecting to database");
+            }
     }
 
     /**
@@ -38,8 +59,8 @@ public class AdminPracForm extends javax.swing.JFrame {
         btnDelete = new javax.swing.JButton();
         txtTitlePrac = new javax.swing.JTextField();
         txtModName = new javax.swing.JTextField();
-        chkAvailableProj = new javax.swing.JCheckBox();
-        txtStartDateProj = new javax.swing.JTextField();
+        chkAvailablePrac = new javax.swing.JCheckBox();
+        txtStartDatePrac = new javax.swing.JTextField();
         txtEndDatePrac = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -81,10 +102,20 @@ public class AdminPracForm extends javax.swing.JFrame {
 
         btnUpdate.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 480, -1, -1));
 
         btnDelete.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 480, -1, -1));
 
         txtTitlePrac.addActionListener(new java.awt.event.ActionListener() {
@@ -95,13 +126,13 @@ public class AdminPracForm extends javax.swing.JFrame {
         jPanel2.add(txtTitlePrac, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, 170, -1));
         jPanel2.add(txtModName, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, 150, -1));
 
-        chkAvailableProj.setText("Available");
-        jPanel2.add(chkAvailableProj, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 410, -1, -1));
+        chkAvailablePrac.setText("Available");
+        jPanel2.add(chkAvailablePrac, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 410, -1, -1));
 
-        txtStartDateProj.setText("YYYY/MM/DD");
-        jPanel2.add(txtStartDateProj, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, 120, -1));
+        txtStartDatePrac.setText("YYYY-MM-DD");
+        jPanel2.add(txtStartDatePrac, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, 120, -1));
 
-        txtEndDatePrac.setText("YYYY/MM/DD");
+        txtEndDatePrac.setText("YYYY-MM-DD");
         jPanel2.add(txtEndDatePrac, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 340, 120, -1));
 
         jLabel1.setText("Practical Title");
@@ -126,6 +157,11 @@ public class AdminPracForm extends javax.swing.JFrame {
 
         btnClear.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
         btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 520, 310, 30));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, 370, 580));
@@ -157,14 +193,53 @@ public class AdminPracForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         // Code to load new data into  table
         //Accounting for Blanks
-        if (txtTitlePrac.getText().equals("")||txtDescriptionPrac.getText().equals("")||txtModName.getText().equals("")||txtStartDateProj.getText().equals("")||txtEndDatePrac.getText().equals("")){
+        if (txtTitlePrac.getText().equals("")||txtDescriptionPrac.getText().equals("")||txtModName.getText().equals("")||txtStartDatePrac.getText().equals("")||txtEndDatePrac.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Some fields empty.");
         }
         //All fields filled
         else{
             String Title = txtTitlePrac.getText();
             String Des = txtDescriptionPrac.getText();
-            //INCOMPLETE!!!!!!!!!!!!!!
+            String ModCode = txtModName.getText();
+            String StartPracDate = txtStartDatePrac.getText();
+            String EndPracDate = txtEndDatePrac.getText();
+            Boolean AvailableChecking = false;
+            if (chkAvailablePrac.isSelected()){
+            AvailableChecking = true;
+            }
+            try{
+            //open the connection
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?useSSL=false", "root", "root@123");
+            //here mydb is database name
+            //root is username of mysql
+            //root@123 is password
+           // JOptionPane.showMessageDialog(null, "Database connection successful"); 
+            
+            String sql = "INSERT into practicals (Practical_Title, Description, Module, Start_Date, End_Date, Available) values (?, ?, ?, ?, ?, ?)";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            
+            pstmt.setString(1, Title);
+            pstmt.setString(2, Des);
+            pstmt.setString(3, ModCode);
+            pstmt.setString(4, StartPracDate);
+            pstmt.setString(5, EndPracDate);
+            pstmt.setBoolean(6,AvailableChecking);
+            
+            int Count = pstmt.executeUpdate();
+            if (Count != 0){
+            JOptionPane.showMessageDialog(null, "Data successfully added");
+            String sqlPrac = "Select Practical_ID, Practical_Title, Description, Module, Start_Date, End_Date , Available from practicals";
+            PreparedStatement pstPrac = con.prepareStatement(sqlPrac);
+            ResultSet rsPrac = pstPrac.executeQuery(sqlPrac);
+            }
+            else {JOptionPane.showMessageDialog(null, "Data not added");}
+            con.close();
+            }
+            catch(Exception e){
+            System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Error in connecting to database");
+            }
 
         }
 
@@ -182,6 +257,98 @@ public class AdminPracForm extends javax.swing.JFrame {
         new AdminProjForm().toFront();
         new AdminProjForm().setState(java.awt.Frame.NORMAL);
     }//GEN-LAST:event_btnGobackActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        int Prac_ID = (Integer.parseInt(JOptionPane.showInputDialog("Input the Practical_ID of the record you want to update:")));
+        try{
+            //open the connection
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?useSSL=false", "root", "root@123");
+            //here mydb is database name
+            //root is username of mysql
+            //root@123 is password
+           // JOptionPane.showMessageDialog(null, "Database connection successful"); 
+            
+            String sql = "UPDATE practicals Practical_Title =?, Description=?, Module=?, Start_Date=?, End_Date=?, Available=? WHERE Practical_ID = ?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            
+            String Title = txtTitlePrac.getText();
+            String Des = txtDescriptionPrac.getText();
+            String ModCode = txtModName.getText();
+            String StartPracDate = txtStartDatePrac.getText();
+            String EndPracDate = txtEndDatePrac.getText();
+            Boolean AvailableChecking = false;
+            if (chkAvailablePrac.isSelected()){
+            AvailableChecking = true;
+            }
+            
+            pstmt.setString(1, Title);
+            pstmt.setString(2, Des);
+            pstmt.setString(3, ModCode);
+            pstmt.setString(4, StartPracDate);
+            pstmt.setString(5, EndPracDate);
+            pstmt.setBoolean(6,AvailableChecking);
+            pstmt.setInt(7, Prac_ID);
+            
+            int Count = pstmt.executeUpdate();
+            if (Count != 0){
+            JOptionPane.showMessageDialog(null, "Data successfully updated");
+            String sqlPrac = "Select Practical_ID, Practical_Title, Description, Module, Start_Date, End_Date , Available from practicals";
+            PreparedStatement pstPrac = con.prepareStatement(sqlPrac);
+            ResultSet rsPrac = pstPrac.executeQuery(sqlPrac);
+            }
+            else {JOptionPane.showMessageDialog(null, "Data not updated");}
+            con.close();
+            }
+         catch(Exception e){
+            System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Error in connecting to database");
+            }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        int Prac_ID = (Integer.parseInt(JOptionPane.showInputDialog("Input the Practical_ID of the record you want to update:")));
+        try{
+            //open the connection
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?useSSL=false", "root", "root@123");
+            //here mydb is database name
+            //root is username of mysql
+            //root@123 is password
+           // JOptionPane.showMessageDialog(null, "Database connection successful"); 
+            
+            String sql = "Delete FROM practicals  WHERE Practical_ID = ?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            
+            pstmt.setInt(1, Prac_ID);
+            
+            int Count = pstmt.executeUpdate();
+            if (Count != 0){
+            JOptionPane.showMessageDialog(null, "Data successfully deleted");
+            String sqlPrac = "Select Practical_ID, Practical_Title, Description, Module, Start_Date, End_Date , Available from practicals";
+            PreparedStatement pstPrac = con.prepareStatement(sqlPrac);
+            ResultSet rsPrac = pstPrac.executeQuery(sqlPrac);
+            }
+            else {JOptionPane.showMessageDialog(null, "Data not deleted");}
+            con.close();
+            }
+         catch(Exception e){
+            System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Error in connecting to database");
+            }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        // TODO add your handling code here:
+        txtTitlePrac.setText("");
+        txtDescriptionPrac.setText("");
+        txtModName.setText("");
+        txtStartDatePrac.setText("YYYY-MM-DD");
+        txtEndDatePrac.setText("YYYY-MM-DD");
+        chkAvailablePrac.setSelected(false);
+    }//GEN-LAST:event_btnClearActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,7 +391,7 @@ public class AdminPracForm extends javax.swing.JFrame {
     private javax.swing.JButton btnGoback;
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JCheckBox chkAvailableProj;
+    private javax.swing.JCheckBox chkAvailablePrac;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
@@ -238,7 +405,7 @@ public class AdminPracForm extends javax.swing.JFrame {
     private javax.swing.JTextField txtDescriptionPrac;
     private javax.swing.JTextField txtEndDatePrac;
     private javax.swing.JTextField txtModName;
-    private javax.swing.JTextField txtStartDateProj;
+    private javax.swing.JTextField txtStartDatePrac;
     private javax.swing.JTextField txtTitlePrac;
     // End of variables declaration//GEN-END:variables
 }
