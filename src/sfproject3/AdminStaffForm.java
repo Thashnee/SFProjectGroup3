@@ -30,6 +30,18 @@ public class AdminStaffForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         lbStaffsTitle = new javax.swing.JLabel();
         btnGoback = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        lblSearch1 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtFirstname = new javax.swing.JTextField();
+        txtLastName = new javax.swing.JTextField();
+        txtAdminStudentUsername = new javax.swing.JTextField();
+        btnUpdateInfo = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(500, 500));
@@ -40,7 +52,7 @@ public class AdminStaffForm extends javax.swing.JFrame {
 
         lbStaffsTitle.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 18)); // NOI18N
         lbStaffsTitle.setText("Staff Information");
-        jPanel1.add(lbStaffsTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, -1, -1));
+        jPanel1.add(lbStaffsTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 40, -1, -1));
 
         btnGoback.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
         btnGoback.setText("<<Go Back");
@@ -51,11 +63,57 @@ public class AdminStaffForm extends javax.swing.JFrame {
         });
         jPanel1.add(btnGoback, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 660, 110, 40));
 
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblSearch1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sfproject3/SearchButton.png"))); // NOI18N
+        jPanel2.add(lblSearch1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 40));
+
+        jTextField2.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        jTextField2.setToolTipText("Search for Module");
+        jPanel2.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 240, 40));
+
+        jLabel1.setText("First Name");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
+
+        jLabel2.setText("Last Name");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, -1));
+
+        jLabel3.setText("Username");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, -1, -1));
+        jPanel2.add(txtFirstname, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 170, -1));
+        jPanel2.add(txtLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 180, 170, -1));
+        jPanel2.add(txtAdminStudentUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 240, 180, -1));
+
+        btnUpdateInfo.setText("Update");
+        btnUpdateInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateInfoActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnUpdateInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 120, 40));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 340, 460));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "User_ID", "First_Name", "Last_Name", "Username"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 120, 620, 460));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1100, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -73,6 +131,10 @@ public class AdminStaffForm extends javax.swing.JFrame {
         new AdminProjForm().toFront();
         new AdminProjForm().setState(java.awt.Frame.NORMAL);
     }//GEN-LAST:event_btnGobackActionPerformed
+
+    private void btnUpdateInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateInfoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdateInfoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -111,7 +173,19 @@ public class AdminStaffForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGoback;
+    private javax.swing.JButton btnUpdateInfo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lbStaffsTitle;
+    private javax.swing.JLabel lblSearch1;
+    private javax.swing.JTextField txtAdminStudentUsername;
+    private javax.swing.JTextField txtFirstname;
+    private javax.swing.JTextField txtLastName;
     // End of variables declaration//GEN-END:variables
 }

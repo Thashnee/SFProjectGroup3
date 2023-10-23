@@ -48,14 +48,13 @@ public final class AdminHomePage extends javax.swing.JFrame {
         lblAdminWelcome2.setText("Welcome " + un);
       
         //add buttons to the array
-        buttons = new JButton[7];
+        buttons = new JButton[6];
         buttons[0] = btnDash;
         buttons[1] = btnPracticals;
         buttons[2] = btnProjects;
         buttons[3] = btnStudents;
         buttons[4] = btnStaff;
-        buttons[5] = btnManage;
-        buttons[6] = btnLogOut;
+        buttons[5] = btnLogOut;
         
         //add default border to buttons
         for(JButton button : buttons){
@@ -167,7 +166,6 @@ public final class AdminHomePage extends javax.swing.JFrame {
         btnProjects = new javax.swing.JButton();
         btnStudents = new javax.swing.JButton();
         btnStaff = new javax.swing.JButton();
-        btnManage = new javax.swing.JButton();
         btnLogOut = new javax.swing.JButton();
         lblAdminWelcome2 = new javax.swing.JLabel();
         tblProjects = new javax.swing.JScrollPane();
@@ -252,14 +250,11 @@ public final class AdminHomePage extends javax.swing.JFrame {
         btnStaff.setBorder(null);
         btnStaff.setContentAreaFilled(false);
         btnStaff.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        btnManage.setBackground(new java.awt.Color(255, 255, 255));
-        btnManage.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
-        btnManage.setForeground(new java.awt.Color(153, 153, 153));
-        btnManage.setText("Manage");
-        btnManage.setBorder(null);
-        btnManage.setContentAreaFilled(false);
-        btnManage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnStaff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStaffActionPerformed(evt);
+            }
+        });
 
         btnLogOut.setBackground(new java.awt.Color(255, 255, 255));
         btnLogOut.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
@@ -289,19 +284,16 @@ public final class AdminHomePage extends javax.swing.JFrame {
                 .addComponent(btnStudents, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnManage, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(142, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnManage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
-                    .addComponent(btnProjects, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnProjects, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
                     .addComponent(btnPracticals, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnDash, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnStudents, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -402,8 +394,21 @@ public final class AdminHomePage extends javax.swing.JFrame {
 
     private void btnStudentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentsActionPerformed
         // TODO add your handling code here:
-        //Set Student
+        //Set StudentHomepage
+         this.toBack();
+        AdminStudentForm StuHome = new AdminStudentForm();
+        StuHome.setVisible(true);
+        StuHome.toFront();
     }//GEN-LAST:event_btnStudentsActionPerformed
+
+    private void btnStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStaffActionPerformed
+        // TODO add your handling code here:
+        //Set StaffHomepage
+         this.toBack();
+        AdminStaffForm StaffHome = new AdminStaffForm();
+        StaffHome.setVisible(true);
+        StaffHome.toFront();
+    }//GEN-LAST:event_btnStaffActionPerformed
 
     //Create a function to add a mouseClick event to all buttons
     public void addAction(){
@@ -488,7 +493,6 @@ public final class AdminHomePage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDash;
     private javax.swing.JButton btnLogOut;
-    private javax.swing.JButton btnManage;
     private javax.swing.JButton btnPracticals;
     private javax.swing.JButton btnProjects;
     private javax.swing.JButton btnStaff;

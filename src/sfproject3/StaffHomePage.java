@@ -50,7 +50,7 @@ public class StaffHomePage extends javax.swing.JFrame {
         lblTitle.setForeground(new java.awt.Color(153, 0, 0));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("University Allocation System");
-        jPanel1.add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 90));
+        jPanel1.add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 80));
 
         lblAdminWelcome2.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 18)); // NOI18N
         lblAdminWelcome2.setText("Welcome");

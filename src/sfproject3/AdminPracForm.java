@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -33,6 +34,31 @@ public class AdminPracForm extends javax.swing.JFrame {
             String sqlPrac = "Select Practical_ID, Practical_Title, Description, Module, Start_Date, End_Date , Available from practicals";
             PreparedStatement pstPrac = con.prepareStatement(sqlPrac);
             ResultSet rsPrac = pstPrac.executeQuery(sqlPrac);
+            
+             while (rsPrac.next()){
+            // data will be added until it gets to the end for practicals
+                String Prac_ID = String.valueOf(rsPrac.getInt("Practical_ID"));
+                String PracTitle = rsPrac.getString("Practical_Title");
+                String PracDescription = rsPrac.getString("Description");
+                String PracModuleCode = rsPrac.getString("Module");
+                String StartDate = (rsPrac.getDate("Start_Date")).toString(); //YYYY-MM-DD
+                String EndDate = (rsPrac.getDate("End_Date")).toString(); //YYYY-MM-DD
+                //boolean to string
+                boolean avaPrac = (rsPrac.getBoolean("Available"));
+                String PracAva = "Unknown";
+
+                if (avaPrac == true){
+                PracAva = "No";
+                }
+                else if (avaPrac == false){
+                PracAva = "Yes";
+                }
+               //String array to store data into jTable
+                String tbPracData[] = {Prac_ID, PracTitle, PracDescription, PracModuleCode, StartDate, EndDate, PracAva};
+                DefaultTableModel tblPracModel = (DefaultTableModel)jTable1.getModel();
+                //add String array into jTabel
+                tblPracModel.addRow(tbPracData);
+            }
             con.close();
             }
             catch(Exception e){
@@ -229,9 +255,34 @@ public class AdminPracForm extends javax.swing.JFrame {
             int Count = pstmt.executeUpdate();
             if (Count != 0){
             JOptionPane.showMessageDialog(null, "Data successfully added");
+            
             String sqlPrac = "Select Practical_ID, Practical_Title, Description, Module, Start_Date, End_Date , Available from practicals";
             PreparedStatement pstPrac = con.prepareStatement(sqlPrac);
             ResultSet rsPrac = pstPrac.executeQuery(sqlPrac);
+            
+             while (rsPrac.next()){
+            // data will be added until it gets to the end for practicals
+                String Prac_ID = String.valueOf(rsPrac.getInt("Practical_ID"));
+                String PracTitle = rsPrac.getString("Practical_Title");
+                String PracDescription = rsPrac.getString("Description");
+                String PracModuleCode = rsPrac.getString("Module");
+                String StartDate = (rsPrac.getDate("Start_Date")).toString(); //YYYY-MM-DD
+                String EndDate = (rsPrac.getDate("End_Date")).toString(); //YYYY-MM-DD
+                //boolean to string
+                boolean avaPrac = (rsPrac.getBoolean("Available"));
+                String PracAva = "Unknown";
+
+                if (avaPrac == true){
+                PracAva = "No";
+                }
+                else if (avaPrac == false){
+                PracAva = "Yes";
+                }
+               //String array to store data into jTable
+                String tbPracData[] = {Prac_ID, PracTitle, PracDescription, PracModuleCode, StartDate, EndDate, PracAva};
+                DefaultTableModel tblPracModel = (DefaultTableModel)jTable1.getModel();
+                //add String array into jTabel
+                tblPracModel.addRow(tbPracData);}
             }
             else {JOptionPane.showMessageDialog(null, "Data not added");}
             con.close();
@@ -260,7 +311,7 @@ public class AdminPracForm extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        int Prac_ID = (Integer.parseInt(JOptionPane.showInputDialog("Input the Practical_ID of the record you want to update:")));
+        int UserPrac_ID = (Integer.parseInt(JOptionPane.showInputDialog("Input the Practical_ID of the record you want to update:")));
         try{
             //open the connection
             Class.forName("com.mysql.jdbc.Driver");
@@ -289,14 +340,39 @@ public class AdminPracForm extends javax.swing.JFrame {
             pstmt.setString(4, StartPracDate);
             pstmt.setString(5, EndPracDate);
             pstmt.setBoolean(6,AvailableChecking);
-            pstmt.setInt(7, Prac_ID);
+            pstmt.setInt(7, UserPrac_ID);
             
             int Count = pstmt.executeUpdate();
             if (Count != 0){
             JOptionPane.showMessageDialog(null, "Data successfully updated");
+            
             String sqlPrac = "Select Practical_ID, Practical_Title, Description, Module, Start_Date, End_Date , Available from practicals";
             PreparedStatement pstPrac = con.prepareStatement(sqlPrac);
             ResultSet rsPrac = pstPrac.executeQuery(sqlPrac);
+            
+             while (rsPrac.next()){
+            // data will be added until it gets to the end for practicals
+                String Prac_ID = String.valueOf(rsPrac.getInt("Practical_ID"));
+                String PracTitle = rsPrac.getString("Practical_Title");
+                String PracDescription = rsPrac.getString("Description");
+                String PracModuleCode = rsPrac.getString("Module");
+                String StartDate = (rsPrac.getDate("Start_Date")).toString(); //YYYY-MM-DD
+                String EndDate = (rsPrac.getDate("End_Date")).toString(); //YYYY-MM-DD
+                //boolean to string
+                boolean avaPrac = (rsPrac.getBoolean("Available"));
+                String PracAva = "Unknown";
+
+                if (avaPrac == true){
+                PracAva = "No";
+                }
+                else if (avaPrac == false){
+                PracAva = "Yes";
+                }
+               //String array to store data into jTable
+                String tbPracData[] = {Prac_ID, PracTitle, PracDescription, PracModuleCode, StartDate, EndDate, PracAva};
+                DefaultTableModel tblPracModel = (DefaultTableModel)jTable1.getModel();
+                //add String array into jTabel
+                tblPracModel.addRow(tbPracData);}
             }
             else {JOptionPane.showMessageDialog(null, "Data not updated");}
             con.close();
@@ -309,7 +385,7 @@ public class AdminPracForm extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        int Prac_ID = (Integer.parseInt(JOptionPane.showInputDialog("Input the Practical_ID of the record you want to update:")));
+        int UserPrac_ID = (Integer.parseInt(JOptionPane.showInputDialog("Input the Practical_ID of the record you want to update:")));
         try{
             //open the connection
             Class.forName("com.mysql.jdbc.Driver");
@@ -322,14 +398,39 @@ public class AdminPracForm extends javax.swing.JFrame {
             String sql = "Delete FROM practicals  WHERE Practical_ID = ?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             
-            pstmt.setInt(1, Prac_ID);
+            pstmt.setInt(1, UserPrac_ID);
             
             int Count = pstmt.executeUpdate();
             if (Count != 0){
             JOptionPane.showMessageDialog(null, "Data successfully deleted");
+            
             String sqlPrac = "Select Practical_ID, Practical_Title, Description, Module, Start_Date, End_Date , Available from practicals";
             PreparedStatement pstPrac = con.prepareStatement(sqlPrac);
             ResultSet rsPrac = pstPrac.executeQuery(sqlPrac);
+            
+             while (rsPrac.next()){
+            // data will be added until it gets to the end for practicals
+                String Prac_ID = String.valueOf(rsPrac.getInt("Practical_ID"));
+                String PracTitle = rsPrac.getString("Practical_Title");
+                String PracDescription = rsPrac.getString("Description");
+                String PracModuleCode = rsPrac.getString("Module");
+                String StartDate = (rsPrac.getDate("Start_Date")).toString(); //YYYY-MM-DD
+                String EndDate = (rsPrac.getDate("End_Date")).toString(); //YYYY-MM-DD
+                //boolean to string
+                boolean avaPrac = (rsPrac.getBoolean("Available"));
+                String PracAva = "Unknown";
+
+                if (avaPrac == true){
+                PracAva = "No";
+                }
+                else if (avaPrac == false){
+                PracAva = "Yes";
+                }
+               //String array to store data into jTable
+                String tbPracData[] = {Prac_ID, PracTitle, PracDescription, PracModuleCode, StartDate, EndDate, PracAva};
+                DefaultTableModel tblPracModel = (DefaultTableModel)jTable1.getModel();
+                //add String array into jTabel
+                tblPracModel.addRow(tbPracData);}
             }
             else {JOptionPane.showMessageDialog(null, "Data not deleted");}
             con.close();

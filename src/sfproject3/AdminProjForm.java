@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -33,6 +34,44 @@ public class AdminProjForm extends javax.swing.JFrame {
             String sqlProjects = "Select Project_ID, Project_Title, Description, Group_Project, No_of_members, Module, Available, Start_Date, Due_Date from projects ";
             PreparedStatement pstProjects = con.prepareStatement(sqlProjects);
             ResultSet rsProjects = pstProjects.executeQuery(sqlProjects);
+            
+            while (rsProjects.next()){
+            // data will be added until it gets to the end for projects
+                String Project_ID = String.valueOf(rsProjects.getInt("Project_ID"));
+                String ProjectTitle = rsProjects.getString("Project_Title");
+                String Description = rsProjects.getString("Description");
+                //Boolean to string
+                boolean gp = (rsProjects.getBoolean("Group_Project"));
+                String GroupProject = "Unknown";
+                if (gp == true){
+                GroupProject = "No";
+                }
+                else if (gp == false){
+                GroupProject = "Yes";
+                }
+               /* else (gp == null){
+                String GroupProjecct = "Unknown";
+                 }*/
+                String NumMembers = String.valueOf(rsProjects.getInt("No_of_members"));
+                String ModuleCode = rsProjects.getString("Module");
+                //boolean to string
+                boolean available = (rsProjects.getBoolean("Available"));
+                String Available = "Unknown";
+
+                if (available == true){
+                Available = "No";
+                }
+                else if (available == false){
+                Available = "Yes";
+                }
+                String StartDate = (rsProjects.getDate("Start_Date")).toString(); //YYYY-MM-DD
+                String DueDate = (rsProjects.getDate("Due_Date")).toString(); //YYYY-MM-DD
+                 //String array to store data into jTable
+                String tbprojData[] = {Project_ID, ProjectTitle, Description, GroupProject, NumMembers, ModuleCode, Available, StartDate, DueDate };
+                DefaultTableModel tblProjModel = (DefaultTableModel)jTable1.getModel();
+                 //add String array into jTabel
+                tblProjModel.addRow(tbprojData);
+            }
             con.close();
             }
             catch(Exception e){
@@ -250,8 +289,8 @@ public class AdminProjForm extends javax.swing.JFrame {
             if (chkAvailableProj.isSelected()){
             AvailableChecking = true;
             }
-            String StartDate = txtStartDateProj.getText();
-            String DueDate = txtDueDateProj.getText();
+            String TextStartDate = txtStartDateProj.getText();
+            String TextDueDate = txtDueDateProj.getText();
             
             try{
             //open the connection
@@ -271,15 +310,54 @@ public class AdminProjForm extends javax.swing.JFrame {
             pstmt.setInt(4, NumMem);
             pstmt.setString(5, MODCode);
             pstmt.setBoolean(6,AvailableChecking);
-            pstmt.setString(7, StartDate);
-            pstmt.setString(8, DueDate);
+            pstmt.setString(7, TextStartDate);
+            pstmt.setString(8, TextDueDate);
             
             int Count = pstmt.executeUpdate();
             if (Count != 0){
             JOptionPane.showMessageDialog(null, "Data successfully added");
+            
             String sqlProjects = "Select Project_ID, Project_Title, Description, Group_Project, No_of_members, Module, Available, Start_Date, Due_Date from projects ";
             PreparedStatement pstProjects = con.prepareStatement(sqlProjects);
             ResultSet rsProjects = pstProjects.executeQuery(sqlProjects);
+            
+            while (rsProjects.next()){
+            // data will be added until it gets to the end for projects
+                String Project_ID = String.valueOf(rsProjects.getInt("Project_ID"));
+                String ProjectTitle = rsProjects.getString("Project_Title");
+                String Description = rsProjects.getString("Description");
+                //Boolean to string
+                boolean gp = (rsProjects.getBoolean("Group_Project"));
+                String GroupProject = "Unknown";
+                if (gp == true){
+                GroupProject = "No";
+                }
+                else if (gp == false){
+                GroupProject = "Yes";
+                }
+               /* else (gp == null){
+                String GroupProjecct = "Unknown";
+                 }*/
+                String NumMembers = String.valueOf(rsProjects.getInt("No_of_members"));
+                String ModuleCode = rsProjects.getString("Module");
+                //boolean to string
+                boolean available = (rsProjects.getBoolean("Available"));
+                String Available = "Unknown";
+
+                if (available == true){
+                Available = "No";
+                }
+                else if (available == false){
+                Available = "Yes";
+                }
+                String StartDate = (rsProjects.getDate("Start_Date")).toString(); //YYYY-MM-DD
+                String DueDate = (rsProjects.getDate("Due_Date")).toString(); //YYYY-MM-DD
+                 //String array to store data into jTable
+                String tbprojData[] = {Project_ID, ProjectTitle, Description, GroupProject, NumMembers, ModuleCode, Available, StartDate, DueDate };
+                DefaultTableModel tblProjModel = (DefaultTableModel)jTable1.getModel();
+                 //add String array into jTabel
+                tblProjModel.addRow(tbprojData);
+            }
             }
             else {JOptionPane.showMessageDialog(null, "Data not added");}
             con.close();
@@ -334,8 +412,8 @@ public class AdminProjForm extends javax.swing.JFrame {
             if (chkAvailableProj.isSelected()){
             AvailableChecking = true;
             }
-            String StartDate = txtStartDateProj.getText();
-            String DueDate = txtDueDateProj.getText();
+            String TextStartDate = txtStartDateProj.getText();
+            String TextDueDate = txtDueDateProj.getText();
             
             pstmt.setString(1, Title);
             pstmt.setString(2, Des);
@@ -343,16 +421,55 @@ public class AdminProjForm extends javax.swing.JFrame {
             pstmt.setInt(4, NumMem);
             pstmt.setString(5, MODCode);
             pstmt.setBoolean(6,AvailableChecking);
-            pstmt.setString(7, StartDate);
-            pstmt.setString(8, DueDate);
+            pstmt.setString(7, TextStartDate);
+            pstmt.setString(8, TextDueDate);
             pstmt.setInt(9, Proj_ID);
             
             int Count = pstmt.executeUpdate();
             if (Count != 0){
             JOptionPane.showMessageDialog(null, "Data Updated successfully");
+            
             String sqlProjects = "Select Project_ID, Project_Title, Description, Group_Project, No_of_members, Module, Available, Start_Date, Due_Date from projects ";
             PreparedStatement pstProjects = con.prepareStatement(sqlProjects);
             ResultSet rsProjects = pstProjects.executeQuery(sqlProjects);
+            
+            while (rsProjects.next()){
+            // data will be added until it gets to the end for projects
+                String Project_ID = String.valueOf(rsProjects.getInt("Project_ID"));
+                String ProjectTitle = rsProjects.getString("Project_Title");
+                String Description = rsProjects.getString("Description");
+                //Boolean to string
+                boolean gp = (rsProjects.getBoolean("Group_Project"));
+                String GroupProject = "Unknown";
+                if (gp == true){
+                GroupProject = "No";
+                }
+                else if (gp == false){
+                GroupProject = "Yes";
+                }
+               /* else (gp == null){
+                String GroupProjecct = "Unknown";
+                 }*/
+                String NumMembers = String.valueOf(rsProjects.getInt("No_of_members"));
+                String ModuleCode = rsProjects.getString("Module");
+                //boolean to string
+                boolean available = (rsProjects.getBoolean("Available"));
+                String Available = "Unknown";
+
+                if (available == true){
+                Available = "No";
+                }
+                else if (available == false){
+                Available = "Yes";
+                }
+                String StartDate = (rsProjects.getDate("Start_Date")).toString(); //YYYY-MM-DD
+                String DueDate = (rsProjects.getDate("Due_Date")).toString(); //YYYY-MM-DD
+                 //String array to store data into jTable
+                String tbprojData[] = {Project_ID, ProjectTitle, Description, GroupProject, NumMembers, ModuleCode, Available, StartDate, DueDate };
+                DefaultTableModel tblProjModel = (DefaultTableModel)jTable1.getModel();
+                 //add String array into jTabel
+                tblProjModel.addRow(tbprojData);
+            }
             }
             else {JOptionPane.showMessageDialog(null, "Data not updated");}
             con.close();
@@ -384,9 +501,48 @@ public class AdminProjForm extends javax.swing.JFrame {
             int Count = pstmt.executeUpdate();
             if (Count != 0){
             JOptionPane.showMessageDialog(null, "Data Deleted successfully");
+            
             String sqlProjects = "Select Project_ID, Project_Title, Description, Group_Project, No_of_members, Module, Available, Start_Date, Due_Date from projects ";
             PreparedStatement pstProjects = con.prepareStatement(sqlProjects);
             ResultSet rsProjects = pstProjects.executeQuery(sqlProjects);
+            
+            while (rsProjects.next()){
+            // data will be added until it gets to the end for projects
+                String Project_ID = String.valueOf(rsProjects.getInt("Project_ID"));
+                String ProjectTitle = rsProjects.getString("Project_Title");
+                String Description = rsProjects.getString("Description");
+                //Boolean to string
+                boolean gp = (rsProjects.getBoolean("Group_Project"));
+                String GroupProject = "Unknown";
+                if (gp == true){
+                GroupProject = "No";
+                }
+                else if (gp == false){
+                GroupProject = "Yes";
+                }
+               /* else (gp == null){
+                String GroupProjecct = "Unknown";
+                 }*/
+                String NumMembers = String.valueOf(rsProjects.getInt("No_of_members"));
+                String ModuleCode = rsProjects.getString("Module");
+                //boolean to string
+                boolean available = (rsProjects.getBoolean("Available"));
+                String Available = "Unknown";
+
+                if (available == true){
+                Available = "No";
+                }
+                else if (available == false){
+                Available = "Yes";
+                }
+                String StartDate = (rsProjects.getDate("Start_Date")).toString(); //YYYY-MM-DD
+                String DueDate = (rsProjects.getDate("Due_Date")).toString(); //YYYY-MM-DD
+                 //String array to store data into jTable
+                String tbprojData[] = {Project_ID, ProjectTitle, Description, GroupProject, NumMembers, ModuleCode, Available, StartDate, DueDate };
+                DefaultTableModel tblProjModel = (DefaultTableModel)jTable1.getModel();
+                 //add String array into jTabel
+                tblProjModel.addRow(tbprojData);
+            }
             }
             else {JOptionPane.showMessageDialog(null, "Data not deleted");}
             con.close();
