@@ -46,11 +46,12 @@ public class AdminStaffForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(500, 500));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(153, 0, 51));
         jPanel1.setMinimumSize(new java.awt.Dimension(480, 600));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lbStaffsTitle.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 18)); // NOI18N
+        lbStaffsTitle.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 24)); // NOI18N
+        lbStaffsTitle.setForeground(new java.awt.Color(255, 255, 255));
         lbStaffsTitle.setText("Staff Information");
         jPanel1.add(lbStaffsTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 40, -1, -1));
 
@@ -61,8 +62,9 @@ public class AdminStaffForm extends javax.swing.JFrame {
                 btnGobackActionPerformed(evt);
             }
         });
-        jPanel1.add(btnGoback, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 660, 110, 40));
+        jPanel1.add(btnGoback, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 610, 110, 40));
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblSearch1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sfproject3/SearchButton.png"))); // NOI18N
@@ -117,7 +119,7 @@ public class AdminStaffForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 677, Short.MAX_VALUE)
         );
 
         pack();

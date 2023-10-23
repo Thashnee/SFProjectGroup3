@@ -45,13 +45,14 @@ public class AdminStudentForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(153, 0, 51));
         jPanel1.setMinimumSize(new java.awt.Dimension(480, 600));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblStudentsTitle.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 18)); // NOI18N
+        lblStudentsTitle.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 24)); // NOI18N
+        lblStudentsTitle.setForeground(new java.awt.Color(255, 255, 255));
         lblStudentsTitle.setText("Student Information");
-        jPanel1.add(lblStudentsTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 50, -1, -1));
+        jPanel1.add(lblStudentsTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 40, -1, -1));
 
         btnGoback.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
         btnGoback.setText("<<Go Back");
@@ -62,13 +63,15 @@ public class AdminStudentForm extends javax.swing.JFrame {
         });
         jPanel1.add(btnGoback, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 600, 110, 40));
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblSearch1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sfproject3/SearchButton.png"))); // NOI18N
         jPanel2.add(lblSearch1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 40));
 
         jTextField2.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
-        jTextField2.setToolTipText("Search for Module");
+        jTextField2.setText("Enetr Username");
+        jTextField2.setToolTipText("Search for Username");
         jPanel2.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 240, 40));
 
         jLabel1.setText("First Name");
