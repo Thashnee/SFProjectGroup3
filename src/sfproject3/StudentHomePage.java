@@ -44,11 +44,17 @@ public class StudentHomePage extends javax.swing.JFrame {
             //root@123 is password
            // JOptionPane.showMessageDialog(null, "Database connection successful");   
             
-            //Practicals
+            //Booking Practicals
             String sqlPrac = "Select Practical_ID, Practical_Title, Description, Module, Start_Date, End_Date , Booking_Date, Available from practicals";
             PreparedStatement pstPrac = con.prepareStatement(sqlPrac);
             ResultSet rsPrac = pstPrac.executeQuery(sqlPrac);
             
+            //Submitting Practicals
+            String sqlPracSub = "Select Practical_ID, Practical_Title, Module, Booking_Date, End_Date, Submission from practicals";
+            PreparedStatement pstPracSub = con.prepareStatement(sqlPracSub);
+            ResultSet rsPracSub = pstPracSub.executeQuery(sqlPracSub);
+            
+            //Adding table to Booking tab
              while (rsPrac.next()){
             // data will be added until it gets to the end for practicals
                 String Prac_ID = String.valueOf(rsPrac.getInt("Practical_ID"));
@@ -70,10 +76,37 @@ public class StudentHomePage extends javax.swing.JFrame {
                 }
                //String array to store data into jTable
                 String tbPracData[] = {Prac_ID, PracTitle, PracDescription, PracModuleCode, StartDate, EndDate,BookingDate, PracAva};
-                DefaultTableModel tblPracModel = (DefaultTableModel)jTable2.getModel();
+                DefaultTableModel tblPracModel = (DefaultTableModel)jTable3.getModel();
                 //add String array into jTabel
                 tblPracModel.addRow(tbPracData);
             }
+             //Adding table to submission tab
+              while (rsPracSub.next()){
+            // data will be added until it gets to the end for practicals
+                String sPrac_ID = String.valueOf(rsPracSub.getInt("Practical_ID"));
+                String sPracTitle = rsPracSub.getString("Practical_Title");
+                String sPracModuleCode = rsPracSub.getString("Module");
+                String sBookingDate = (rsPracSub.getDate("Booking_Date")).toString(); //YYYY-MM-DD
+                String sEndDate = (rsPracSub.getDate("End_Date")).toString(); //YYYY-MM-DD
+                String sSubmission = rsPracSub.getString("Submission");
+                        
+                //boolean to string
+                boolean avaPrac = (rsPrac.getBoolean("Available"));
+                String PracAva = "Unknown";
+
+                if (avaPrac == true){
+                PracAva = "No";
+                }
+                else if (avaPrac == false){
+                PracAva = "Yes";
+                }
+               //String array to store data into jTable
+                String tbPracData[] = {sPrac_ID, sPracTitle, sPracModuleCode,sBookingDate, sEndDate, sSubmission };
+                DefaultTableModel tblPracModel = (DefaultTableModel)jTable3.getModel();
+                //add String array into jTabel
+                tblPracModel.addRow(tbPracData);
+            }
+             
         }
         catch(Exception e){
          System.out.println(e.getMessage());
@@ -116,6 +149,7 @@ public class StudentHomePage extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lblUPLOAD = new javax.swing.JLabel();
         txtFileName = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
         pnlBookProj = new javax.swing.JPanel();
         lblSearchproj = new javax.swing.JLabel();
         txtSearchProj = new javax.swing.JTextField();
@@ -240,6 +274,11 @@ public class StudentHomePage extends javax.swing.JFrame {
                 "Practical_ID", "Practical_Title", "Module", "Booking_Date", "End_Date", "Submission"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         tblPracSub.setViewportView(jTable1);
 
         pnlSubmitPrac.add(tblPracSub, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 1120, 460));
@@ -257,6 +296,9 @@ public class StudentHomePage extends javax.swing.JFrame {
         });
         pnlSubmitPrac.add(lblUPLOAD, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 570, -1, 30));
         pnlSubmitPrac.add(txtFileName, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 570, 320, 30));
+
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        pnlSubmitPrac.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 620, -1, -1));
 
         jTabbedPane1.addTab("Submit Practicals", pnlSubmitPrac);
 
@@ -437,7 +479,8 @@ public class StudentHomePage extends javax.swing.JFrame {
             
             String Subsql = "UPDATE practicals Submission=? WHERE Practical_ID = ?, User_ID=?";
             PreparedStatement pstmt = con.prepareStatement(Subsql);
-            pstmt.setString(1, TheIdentityOfTheUser);
+            pstmt.setString(1, jLabel8.getText());
+            pstmt.setString(2, TheIdentityOfTheUser);
             ResultSet rsSQL = pstmt.executeQuery();
         }
         catch(Exception e){
@@ -445,6 +488,14 @@ public class StudentHomePage extends javax.swing.JFrame {
          JOptionPane.showMessageDialog(null, "Error in connecting to database");
              }
     }//GEN-LAST:event_btnSubmitPracActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel tblModel = (DefaultTableModel)jTable1.getModel();
+        
+        String tblProject_ID = tblModel.getValueAt(jTable1.getSelectedRow(), 0).toString();
+        jLabel8.setText(tblProject_ID);
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -493,6 +544,7 @@ public class StudentHomePage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

@@ -70,8 +70,13 @@ public class AdminStudentForm extends javax.swing.JFrame {
         jPanel2.add(lblSearch1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 40));
 
         jTextField2.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
-        jTextField2.setText("Enetr Username");
+        jTextField2.setText("Enter Username");
         jTextField2.setToolTipText("Search for Username");
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 240, 40));
 
         jLabel1.setText("First Name");
@@ -137,6 +142,10 @@ public class AdminStudentForm extends javax.swing.JFrame {
     private void btnUpdateInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateInfoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnUpdateInfoActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
 
     /**
      * @param args the command line arguments
